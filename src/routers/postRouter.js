@@ -4,5 +4,6 @@ const tokenVal = require('../middlewares/tokenVal');
 
 // routerPost.post('/', tokenVal, controllerPost.create);
 routerPost.get('/', tokenVal, controllerPost.findAll);
+routerPost.get('/:id', tokenVal, controllerPost.findByPk);
 
 module.exports = routerPost;

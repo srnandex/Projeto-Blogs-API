@@ -18,11 +18,15 @@ const findAll = async () => {
 };
 
 const findByPk = async (id) => {
-    const userbyid = await User.findByPk(id, { attributes: { exclude: ['password'] } });
+    const postById = await BlogPost.findByPk(id, {
+        include: [
+            { model: User, as: 'user', attributes: { exclude: ['password'] } },
+            { model: Category, as: 'categories', through: { attributes: [] } },
+        ] });
 
-    if (!userbyid) return 'xablau';
+    if (!postById) return 'xablau';
 
-    return userbyid;
+    return postById;
 };
 
 const destroy = async (id) => {
