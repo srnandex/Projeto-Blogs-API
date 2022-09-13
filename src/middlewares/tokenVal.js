@@ -8,6 +8,7 @@ const tokenVal = (req, res, next) => {
     if (!authorization) return res.status(401).json({ message: 'Token not found' });
     try {
       const veriTok = jwt.verify(authorization, JWT_SECRET);
+      console.log(veriTok.data);
       req.user = veriTok;
       return next();
     } catch (error) {

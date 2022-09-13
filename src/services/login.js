@@ -11,7 +11,8 @@ const serviceLogin = async (email, pass) => {
         return 'xablau';
     }
 
-    const token = jwt.sign({ data: email }, JWT_SECRET, { expiresIn: '1d', algorithm: 'HS256' });
+    const token = jwt.sign({ data: 
+        { email, id: user.dataValues.id } }, JWT_SECRET, { expiresIn: '1d', algorithm: 'HS256' });
     // console.log(token);
     return { token };
 };

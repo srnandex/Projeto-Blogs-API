@@ -26,8 +26,15 @@ const findByPk = async (req, res) => {
     return res.status(200).json(userbyid);
 };
 
+const destroy = async (req, res) => {
+    console.log(req);
+    await serviceUser.destroy(req.user.data.id);
+    return res.status(204).end();
+};
+
 module.exports = {
     create,
     findAll,
     findByPk,
+    destroy,
 };

@@ -6,5 +6,6 @@ const tokenVal = require('../middlewares/tokenVal');
 routerUser.post('/', valUser, controllerUser.create);
 routerUser.get('/', tokenVal, controllerUser.findAll);
 routerUser.get('/:id', tokenVal, controllerUser.findByPk);
+routerUser.delete('/me', tokenVal, controllerUser.destroy);
 
 module.exports = routerUser;

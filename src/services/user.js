@@ -25,7 +25,9 @@ const findByPk = async (id) => {
     return userbyid;
 };
 
-const destroy = async () => {};
+const destroy = async (id) => {
+    await User.destroy({ where: { id } });
+};
 
 module.exports = {
     create,
