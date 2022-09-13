@@ -12,9 +12,18 @@ const create = async ({ displayName, email, password, image }) => {
     return { token };
 };
 
-const findAll = async () => {};
+const findAll = async () => {
+    const allUsers = await User.findAll({ attributes: { exclude: ['password'] } });
+    return allUsers;
+};
 
-const findByPk = async (_id) => {};
+const findByPk = async (id) => {
+    const userbyid = await User.findByPk(id, { attributes: { exclude: ['password'] } });
+
+    if (!userbyid) return 'xablau';
+
+    return userbyid;
+};
 
 const destroy = async () => {};
 
