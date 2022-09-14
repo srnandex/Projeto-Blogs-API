@@ -26,8 +26,27 @@ const findByPk = async (req, res) => {
     return res.status(200).json(postbyid);
 };
 
+const update = async (req, res) => {
+    const { id } = req.params;
+    if (!req.body.content || !req.body.title) {
+        return res.status(400).json({ message: 'Some required fields are missing' });
+    }
+    const postbyid = await servicePost.update(id, req.body);
+    return res.status(200).json(postbyid);
+};
+
+const destroy = async (req, res) => {
+    const des = await servicePost.destroy(req.params.id);
+    if (des === 'xablau') {
+        return res.status(404).json({ message: 'Post does not exist' });
+    }
+    return res.status(204).end();
+};
+
 module.exports = {
     // create,
     findAll,
     findByPk,
+    update,
+    destroy,
 };

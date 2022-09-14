@@ -23,14 +23,21 @@ const findByPk = async (id) => {
             { model: User, as: 'user', attributes: { exclude: ['password'] } },
             { model: Category, as: 'categories', through: { attributes: [] } },
         ] });
-
     if (!postById) return 'xablau';
 
     return postById;
 };
 
+const update = async (id, up) => {
+    await BlogPost.update(up, { where: { id } });
+    const result = await findByPk(id);
+    return result;
+};
+
 const destroy = async (id) => {
-    await User.destroy({ where: { id } });
+    const result = await findByPk(id);
+    if (result === 'xablau') return 'xablau';
+    await BlogPost.destroy({ where: { id } });
 };
 
 module.exports = {
@@ -38,4 +45,5 @@ module.exports = {
     findAll,
     findByPk,
     destroy,
+    update,
 };
