@@ -2,7 +2,7 @@ const servicePost = require('../services/post');
 
 const valPost = async (req, res, next) => {
     // console.log(req);
-    const idReq = req.user.data.id;
+    const idReq = req.user.data.email;
     const idParam = req.params.id;
 
     const veriTokenPost = await servicePost.findByPk(idParam);
@@ -11,7 +11,7 @@ const valPost = async (req, res, next) => {
         return res.status(404).json({ message: 'Post does not exist' }); 
     }
 
-    if (idReq !== veriTokenPost.userId) {
+    if (idReq !== veriTokenPost.user.email) {
         return res.status(401).json({ message: 'Unauthorized user' });
     }
     return next();
