@@ -9,6 +9,7 @@ const tokenVal = (req, res, next) => {
     try {
       const veriTok = jwt.verify(authorization, JWT_SECRET);
       req.user = veriTok;
+      console.log('estou no tokenVaaaaallll');
       return next();
     } catch (error) {
         return res.status(401).json({ message: 'Expired or invalid token' });

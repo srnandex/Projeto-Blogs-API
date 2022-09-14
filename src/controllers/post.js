@@ -1,14 +1,13 @@
 const servicePost = require('../services/post');
 
-// const create = async (req, res) => {
-//     const category = await serviceCategorie.create(req.body);
-//     if (category === 'xablau') {
-//         return res.status(400).json({
-//             message: '"name" is required',
-//           });
-//     }
-//     return res.status(201).json(category);
-// };
+const create = async (req, res) => {
+    const { title, content, categoryIds } = req.body;
+      const userId = req.user.data.id;
+
+      const post = await servicePost.create({ title, content, categoryIds, userId });
+      if (post === 'xablau') return res.status(400).json({ message: '"categoryIds" not found' });
+      return res.status(201).json(post);
+  };
 
 const findAll = async (_req, res) => {
     const allPosts = await servicePost.findAll();
@@ -36,15 +35,15 @@ const update = async (req, res) => {
 };
 
 const destroy = async (req, res) => {
-    const des = await servicePost.destroy(req.params.id);
-    if (des === 'xablau') {
-        return res.status(404).json({ message: 'Post does not exist' });
-    }
+    await servicePost.destroy(req.params.id);
+    // if (des === 'xablau') {
+    //     return res.status(404).json({ message: 'Post does not exist' });
+    // }
     return res.status(204).end();
 };
 
 module.exports = {
-    // create,
+    create,
     findAll,
     findByPk,
     update,

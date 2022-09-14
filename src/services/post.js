@@ -1,11 +1,19 @@
-const { User, BlogPost, Category } = require('../database/models');
+const { BlogPost, PostCategory, Category, User } = require('../database/models');
 
-const create = async () => {
-    // const veridupliemail = await User.findOne({ where: { email } });
-    // if (veridupliemail) { return 'xablau'; }
-    // await User.create({ displayName, email, password, image });
-    // const token = jwt.sign({ data: email }, JWT_SECRET, { expiresIn: '1d', algorithm: 'HS256' });
-    // return { token };
+const create = async ({ title, content, categoryIds, userId }) => {
+    const { count } = await Category.findAndCountAll({ where: { id: categoryIds } });
+    if (count < categoryIds.length) {
+        return 'xablau';
+    }
+    const { dataValues } = await BlogPost.create(
+      { title, content, userId },
+    );
+    const mapCategory = categoryIds.map((ev) => ({
+      postId: dataValues.id, categoryId: ev,
+    }));
+    await PostCategory.bulkCreate(mapCategory);
+
+  return dataValues;
 };
 
 const findAll = async () => {
@@ -35,8 +43,8 @@ const update = async (id, up) => {
 };
 
 const destroy = async (id) => {
-    const result = await findByPk(id);
-    if (result === 'xablau') return 'xablau';
+    await findByPk(id);
+    // if (result === 'xablau') return 'xablau';
     await BlogPost.destroy({ where: { id } });
 };
 
